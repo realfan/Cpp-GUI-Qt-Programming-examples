@@ -1,8 +1,11 @@
-#include <QtGui>
-
 #include "imagewindow.h"
 #include "ui_resizedialog.h"
-
+#include <QStatusBar>
+#include <QCloseEvent>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QMenuBar>
+#include <QImageReader>
 ImageWindow::ImageWindow()
 {
     imageLabel = new QLabel;
@@ -16,10 +19,10 @@ ImageWindow::ImageWindow()
 
     statusBar()->showMessage(tr("Ready"), 2000);
 
-    connect(&thread, SIGNAL(transactionStarted(const QString &)),
-            statusBar(), SLOT(showMessage(const QString &)));
-    connect(&thread, SIGNAL(allTransactionsDone()),
-            this, SLOT(allTransactionsDone()));
+    connect(&thread, &TransactionThread::transactionStarted,
+            statusBar(), &QStatusBar::showMessage);
+    connect(&thread, &TransactionThread::allTransactionsDone,
+            this, &ImageWindow::allTransactionsDone);
 
     setCurrentFile("");
 }
@@ -142,64 +145,64 @@ void ImageWindow::createActions()
     openAction = new QAction(tr("&Open..."), this);
     openAction->setShortcut(QKeySequence::Open);
     openAction->setStatusTip(tr("Open an existing image file"));
-    connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
+    connect(openAction, &QAction::triggered, this, &ImageWindow::open);
 
     saveAction = new QAction(tr("&Save"), this);
     saveAction->setShortcut(QKeySequence::Save);
     saveAction->setStatusTip(tr("Save the image to disk"));
-    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+    connect(saveAction, &QAction::triggered, this, &ImageWindow::save);
 
     saveAsAction = new QAction(tr("Save &As..."), this);
     saveAsAction->setStatusTip(tr("Save the image under a new name"));
-    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(saveAsAction, &QAction::triggered, this, &ImageWindow::saveAs);
 
     exitAction = new QAction(tr("E&xit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
-    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+    connect(exitAction, &QAction::triggered, this, &ImageWindow::close);
 
     flipHorizontallyAction = new QAction(tr("Flip &Horizontally"),
                                          this);
     flipHorizontallyAction->setShortcut(tr("Ctrl+H"));
     flipHorizontallyAction->setStatusTip(tr("Flip the image "
                                             "horizontally"));
-    connect(flipHorizontallyAction, SIGNAL(triggered()),
-            this, SLOT(flipHorizontally()));
+    connect(flipHorizontallyAction, &QAction::triggered,
+            this, &ImageWindow::flipHorizontally);
 
     flipVerticallyAction = new QAction(tr("Flip &Vertically"), this);
     flipVerticallyAction->setShortcut(tr("Ctrl+V"));
     flipVerticallyAction->setStatusTip(tr("Flip the image vertically"));
-    connect(flipVerticallyAction, SIGNAL(triggered()),
-            this, SLOT(flipVertically()));
+    connect(flipVerticallyAction, &QAction::triggered,
+            this, &ImageWindow::flipVertically);
 
     resizeAction = new QAction(tr("&Resize..."), this);
     resizeAction->setShortcut(tr("Ctrl+R"));
     resizeAction->setStatusTip(tr("Resize the image"));
-    connect(resizeAction, SIGNAL(triggered()),
-            this, SLOT(resizeImage()));
+    connect(resizeAction, &QAction::triggered,
+            this, &ImageWindow::resizeImage);
 
     convertTo32BitAction = new QAction(tr("32 Bit"), this);
     convertTo32BitAction->setStatusTip(tr("Convert to 32-bit image"));
-    connect(convertTo32BitAction, SIGNAL(triggered()),
-            this, SLOT(convertTo32Bit()));
+    connect(convertTo32BitAction, &QAction::triggered,
+            this, &ImageWindow::convertTo32Bit);
 
     convertTo8BitAction = new QAction(tr("8 Bit"), this);
     convertTo8BitAction->setStatusTip(tr("Convert to 8-bit image"));
-    connect(convertTo8BitAction, SIGNAL(triggered()),
-            this, SLOT(convertTo8Bit()));
+    connect(convertTo8BitAction, &QAction::triggered,
+            this, &ImageWindow::convertTo8Bit);
 
     convertTo1BitAction = new QAction(tr("1 Bit"), this);
     convertTo1BitAction->setStatusTip(tr("Convert to 1-bit image"));
-    connect(convertTo1BitAction, SIGNAL(triggered()),
-            this, SLOT(convertTo1Bit()));
+    connect(convertTo1BitAction, &QAction::triggered,
+            this, &ImageWindow::convertTo1Bit);
 
     aboutAction = new QAction(tr("&About"), this);
     aboutAction->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    connect(aboutAction, &QAction::triggered, this, &ImageWindow::about);
 
     aboutQtAction = new QAction(tr("About &Qt"), this);
     aboutQtAction->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(aboutQtAction, &QAction::triggered, qApp, &QApplication::aboutQt);
 }
 
 void ImageWindow::createMenus()

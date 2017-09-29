@@ -1,7 +1,7 @@
-#include <QtGui>
-
 #include "threaddialog.h"
-
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QCloseEvent>
 ThreadDialog::ThreadDialog(QWidget *parent)
     : QDialog(parent)
 {
@@ -13,11 +13,11 @@ ThreadDialog::ThreadDialog(QWidget *parent)
     quitButton = new QPushButton(tr("Quit"));
     quitButton->setDefault(true);
 
-    connect(threadAButton, SIGNAL(clicked()),
-            this, SLOT(startOrStopThreadA()));
-    connect(threadBButton, SIGNAL(clicked()),
-            this, SLOT(startOrStopThreadB()));
-    connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(threadAButton, &QPushButton::clicked,
+            this, &ThreadDialog::startOrStopThreadA);
+    connect(threadBButton, &QPushButton::clicked,
+            this, &ThreadDialog::startOrStopThreadB);
+    connect(quitButton, &QPushButton::clicked, this, &ThreadDialog::close);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addWidget(threadAButton);

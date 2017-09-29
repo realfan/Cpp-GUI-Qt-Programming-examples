@@ -65,7 +65,7 @@ public:
     QImage image();
 
 signals:
-    void transactionStarted(const QString &message);
+    void transactionStarted(const QString &message, int timeout = 0);
     void allTransactionsDone();
 
 protected:

@@ -1,5 +1,3 @@
-#include <QtGui>
-
 #include "transactionthread.h"
 
 Transaction * const EndTransaction = 0;
