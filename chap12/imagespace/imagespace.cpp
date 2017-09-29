@@ -1,20 +1,20 @@
-#include <QtGui>
 #include <iostream>
-
+#include <QDir>
+#include <QImageReader>
+#include <QCoreApplication>
 qlonglong imageSpace(const QString &path)
 {
     QDir dir(path);
     qlonglong size = 0;
 
     QStringList filters;
-    foreach (QByteArray format, QImageReader::supportedImageFormats())
+    for (const QByteArray & format : QImageReader::supportedImageFormats())
         filters += "*." + format;
 
-    foreach (QString file, dir.entryList(filters, QDir::Files))
+    for (const QString & file : dir.entryList(filters, QDir::Files))
         size += QFileInfo(dir, file).size();
 
-    foreach (QString subDir, dir.entryList(QDir::Dirs
-                                           | QDir::NoDotAndDotDot))
+    for (const QString & subDir : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
         size += imageSpace(path + QDir::separator() + subDir);
 
     return size;

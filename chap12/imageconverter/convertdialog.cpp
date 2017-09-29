@@ -1,6 +1,8 @@
-#include <QtGui>
-
 #include "convertdialog.h"
+#include <QPushButton>
+#include <QDir>
+#include <QFileDialog>
+#include <QFileInfo>
 
 ConvertDialog::ConvertDialog(QWidget *parent)
     : QDialog(parent)
@@ -12,15 +14,15 @@ ConvertDialog::ConvertDialog(QWidget *parent)
     convertButton->setText(tr("&Convert"));
     convertButton->setEnabled(false);
 
-    connect(convertButton, SIGNAL(clicked()),
-            this, SLOT(convertImage()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(&process, SIGNAL(readyReadStandardError()),
-            this, SLOT(updateOutputTextEdit()));
-    connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(processFinished(int, QProcess::ExitStatus)));
-    connect(&process, SIGNAL(error(QProcess::ProcessError)),
-            this, SLOT(processError(QProcess::ProcessError)));
+    connect(convertButton, &QPushButton::clicked,
+            this, &ConvertDialog::convertImage);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &ConvertDialog::reject);
+    connect(&process, &QProcess::readyReadStandardError,
+            this, &ConvertDialog::updateOutputTextEdit);
+    connect(&process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            this, &ConvertDialog::processFinished);
+    connect(&process, &QProcess::errorOccurred,
+            this, &ConvertDialog::processError);
 }
 
 void ConvertDialog::on_browseButton_clicked()
