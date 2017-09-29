@@ -1,8 +1,10 @@
-#include <QtGui>
-
 #include "cell.h"
 #include "spreadsheet.h"
-
+#include <QApplication>
+#include <QMessageBox>
+#include <QFile>
+#include <QDataStream>
+#include <QClipboard>
 Spreadsheet::Spreadsheet(QWidget *parent)
     : QTableWidget(parent)
 {
@@ -11,8 +13,8 @@ Spreadsheet::Spreadsheet(QWidget *parent)
     setItemPrototype(new Cell);
     setSelectionMode(ContiguousSelection);
 
-    connect(this, SIGNAL(itemChanged(QTableWidgetItem *)),
-            this, SLOT(somethingChanged()));
+    connect(this, &Spreadsheet::itemChanged,
+            this, &Spreadsheet::somethingChanged);
 
     clear();
 }

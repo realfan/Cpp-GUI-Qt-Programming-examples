@@ -1,7 +1,10 @@
-#include <QtGui>
-
 #include "finddialog.h"
-
+#include <QLabel>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 FindDialog::FindDialog(QWidget *parent)
     : QDialog(parent)
 {
