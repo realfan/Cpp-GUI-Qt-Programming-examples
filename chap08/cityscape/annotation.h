@@ -2,7 +2,7 @@
 #define ANNOTATION_H
 
 #include <QGraphicsItem>
-
+#include <QFont>
 class Annotation : public QGraphicsItem
 {
 public:

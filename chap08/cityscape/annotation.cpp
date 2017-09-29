@@ -1,7 +1,12 @@
-#include <QtGui>
 #include <cmath>
 
 #include "annotation.h"
+#include <QFont>
+#include <QFontMetricsF>
+#include <QRectF>
+#include <QApplication>
+#include <QStyleOptionGraphicsItem>
+#include <QPainter>
 
 Annotation::Annotation(const QString &text, bool major)
 {

@@ -1,10 +1,8 @@
-#include <QtGui>
-
 #include "annotation.h"
 #include "cityblock.h"
 #include "cityscape.h"
 #include "cityview.h"
-
+#include <QSet>
 Cityscape::Cityscape()
 {
     scene = new QGraphicsScene(-22.25, -22.25, 1980, 1980);

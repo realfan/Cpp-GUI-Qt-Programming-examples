@@ -1,7 +1,8 @@
-#include <QtGui>
 #include <cmath>
 
 #include "cityblock.h"
+#include <QStyleOptionGraphicsItem>
+#include <QPainter>
 
 CityBlock::CityBlock(Kind kind)
 {
