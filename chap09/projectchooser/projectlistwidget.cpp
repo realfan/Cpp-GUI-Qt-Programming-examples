@@ -1,6 +1,9 @@
-#include <QtGui>
 
 #include "projectlistwidget.h"
+#include <QMouseEvent>
+#include <QApplication>
+#include <QMimeData>
+#include <QDrag>
 
 ProjectListWidget::ProjectListWidget(QWidget *parent)
     : QListWidget(parent)
