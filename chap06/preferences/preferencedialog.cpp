@@ -1,6 +1,13 @@
-#include <QtGui>
-
 #include "preferencedialog.h"
+#include <QDialogButtonBox>
+#include <QListWidget>
+#include <QStackedLayout>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QLabel>
+#include <QLineEdit>
 
 PreferenceDialog::PreferenceDialog(QWidget *parent)
     : QDialog(parent)
@@ -200,8 +207,7 @@ void PreferenceDialog::createAdvancedPage()
                                    "anonymous FTP:"));
     ftpLineEdit = new QLineEdit;
 
-    connect(ftpCheckBox, SIGNAL(toggled(bool)),
-            ftpLineEdit, SLOT(setEnabled(bool)));
+    connect(ftpCheckBox, &QCheckBox::toggled, ftpLineEdit, &QLineEdit::setEnabled);
 
     QGridLayout *featuresLayout = new QGridLayout;
     featuresLayout->addWidget(javaCheckBox, 0, 0, 1, 2);

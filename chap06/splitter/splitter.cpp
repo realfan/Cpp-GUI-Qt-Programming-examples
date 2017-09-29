@@ -1,5 +1,6 @@
-#include <QtGui>
-
+#include <QApplication>
+#include <QTextEdit>
+#include <QSplitter>
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

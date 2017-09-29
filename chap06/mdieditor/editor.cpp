@@ -1,19 +1,22 @@
-#include <QtGui>
-
 #include "editor.h"
-
+#include <QAction>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QCloseEvent>
+#include <QTextStream>
+#include <QApplication>
 Editor::Editor(QWidget *parent)
     : QTextEdit(parent)
 {
     action = new QAction(this);
     action->setCheckable(true);
-    connect(action, SIGNAL(triggered()), this, SLOT(show()));
+    connect(action, &QAction::triggered, this, &Editor::show);
     connect(action, SIGNAL(triggered()), this, SLOT(setFocus()));
 
     isUntitled = true;
 
-    connect(document(), SIGNAL(contentsChanged()),
-            this, SLOT(documentWasModified()));
+    connect(document(), &QTextDocument::contentsChanged,
+            this, &Editor::documentWasModified);
 
     setWindowIcon(QPixmap(":/images/document.png"));
     setWindowTitle("[*]");

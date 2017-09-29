@@ -1,7 +1,11 @@
-#include <QtGui>
 
 #include "findfiledialog.h"
-
+#include <QLabel>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QTableWidget>
+#include <QPushButton>
+#include <QGridLayout>
 FindFileDialog::FindFileDialog(QWidget *parent)
     : QDialog(parent)
 {
@@ -32,7 +36,7 @@ FindFileDialog::FindFileDialog(QWidget *parent)
     closeButton = new QPushButton(tr("Close"));
     helpButton = new QPushButton(tr("Help"));
 
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(closeButton, &QPushButton::clicked, this, &FindFileDialog::close);
 
     QGridLayout *leftLayout = new QGridLayout;
     leftLayout->addWidget(namedLabel, 0, 0);

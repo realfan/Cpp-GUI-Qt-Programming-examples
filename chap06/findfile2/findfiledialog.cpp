@@ -1,6 +1,9 @@
-#include <QtGui>
-
 #include "findfiledialog.h"
+#include <QLabel>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QTableWidget>
+#include <QPushButton>
 
 FindFileDialog::FindFileDialog(QWidget *parent)
     : QDialog(parent)
@@ -32,7 +35,7 @@ FindFileDialog::FindFileDialog(QWidget *parent)
     closeButton = new QPushButton(tr("Close"), this);
     helpButton = new QPushButton(tr("Help"), this);
 
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(closeButton, &QPushButton::clicked, this, &FindFileDialog::close);
 
     setWindowTitle(tr("Find Files or Folders"));
     setMinimumSize(265, 190);

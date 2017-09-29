@@ -1,7 +1,12 @@
-#include <QtGui>
-
 #include "mailclient.h"
-
+#include <QStyle>
+#include <QTreeWidget>
+#include <QTextEdit>
+#include <QMenuBar>
+#include <QStatusBar>
+#include <QSplitter>
+#include <QCloseEvent>
+#include <QSettings>
 MailClient::MailClient()
 {
     QIcon folderIcon(style()->standardPixmap(QStyle::SP_DirClosedIcon));

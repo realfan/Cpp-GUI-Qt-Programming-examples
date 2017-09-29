@@ -1,14 +1,22 @@
-#include <QtGui>
-
 #include "editor.h"
 #include "mainwindow.h"
-
+#include <QMdiArea>
+#include <QTimer>
+#include <QApplication>
+#include <QCloseEvent>
+#include <QMessageBox>
+#include <QAction>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QStatusBar>
+#include <QLabel>
+#include <QMdiSubWindow>
 MainWindow::MainWindow()
 {
     mdiArea = new QMdiArea;
     setCentralWidget(mdiArea);
-    connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
-            this, SLOT(updateActions()));
+    connect(mdiArea, &QMdiArea::subWindowActivated,
+            this, &MainWindow::updateActions);
 
     createActions();
     createMenus();
@@ -17,7 +25,7 @@ MainWindow::MainWindow()
 
     setWindowIcon(QPixmap(":/images/icon.png"));
     setWindowTitle(tr("MDI Editor"));
-    QTimer::singleShot(0, this, SLOT(loadFiles()));
+    QTimer::singleShot(0, this, &MainWindow::loadFiles);
 }
 
 void MainWindow::loadFiles()
@@ -25,7 +33,7 @@ void MainWindow::loadFiles()
     QStringList args = QApplication::arguments();
     args.removeFirst();
     if (!args.isEmpty()) {
-        foreach (QString arg, args)
+        for (const QString & arg : args)
             openFile(arg);
         mdiArea->cascadeSubWindows();
     } else {
@@ -133,93 +141,93 @@ void MainWindow::createActions()
     newAction->setIcon(QIcon(":/images/new.png"));
     newAction->setShortcut(QKeySequence::New);
     newAction->setStatusTip(tr("Create a new file"));
-    connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
+    connect(newAction, &QAction::triggered, this, &MainWindow::newFile);
 
     openAction = new QAction(tr("&Open..."), this);
     openAction->setIcon(QIcon(":/images/open.png"));
     openAction->setShortcut(QKeySequence::Open);
     openAction->setStatusTip(tr("Open an existing file"));
-    connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
+    connect(openAction, &QAction::triggered, this, &MainWindow::open);
 
     saveAction = new QAction(tr("&Save"), this);
     saveAction->setIcon(QIcon(":/images/save.png"));
     saveAction->setShortcut(QKeySequence::Save);
     saveAction->setStatusTip(tr("Save the file to disk"));
-    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+    connect(saveAction, &QAction::triggered, this, &MainWindow::save);
 
     saveAsAction = new QAction(tr("Save &As..."), this);
     saveAsAction->setStatusTip(tr("Save the file under a new name"));
-    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(saveAsAction, &QAction::triggered, this, &MainWindow::saveAs);
 
     exitAction = new QAction(tr("E&xit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
-    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+    connect(exitAction, &QAction::triggered, this, &MainWindow::close);
 
     cutAction = new QAction(tr("Cu&t"), this);
     cutAction->setIcon(QIcon(":/images/cut.png"));
     cutAction->setShortcut(QKeySequence::Cut);
     cutAction->setStatusTip(tr("Cut the current selection to the "
                                "clipboard"));
-    connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
+    connect(cutAction, &QAction::triggered, this, &MainWindow::cut);
 
     copyAction = new QAction(tr("&Copy"), this);
     copyAction->setIcon(QIcon(":/images/copy.png"));
     copyAction->setShortcut(QKeySequence::Copy);
     copyAction->setStatusTip(tr("Copy the current selection to the "
                                 "clipboard"));
-    connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+    connect(copyAction, &QAction::triggered, this, &MainWindow::copy);
 
     pasteAction = new QAction(tr("&Paste"), this);
     pasteAction->setIcon(QIcon(":/images/paste.png"));
     pasteAction->setShortcut(QKeySequence::Paste);
     pasteAction->setStatusTip(tr("Paste the clipboard's contents at "
                                  "the cursor position"));
-    connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+    connect(pasteAction, &QAction::triggered, this, &MainWindow::paste);
 
     closeAction = new QAction(tr("Cl&ose"), this);
     closeAction->setShortcut(QKeySequence::Close);
     closeAction->setStatusTip(tr("Close the active window"));
-    connect(closeAction, SIGNAL(triggered()),
-            mdiArea, SLOT(closeActiveSubWindow()));
+    connect(closeAction, &QAction::triggered,
+            mdiArea, &QMdiArea::closeActiveSubWindow);
 
     closeAllAction = new QAction(tr("Close &All"), this);
     closeAllAction->setStatusTip(tr("Close all the windows"));
-    connect(closeAllAction, SIGNAL(triggered()), this, SLOT(close()));
+    connect(closeAllAction, &QAction::triggered, this, &MainWindow::close);
 
     tileAction = new QAction(tr("&Tile"), this);
     tileAction->setStatusTip(tr("Tile the windows"));
-    connect(tileAction, SIGNAL(triggered()),
-            mdiArea, SLOT(tileSubWindows()));
+    connect(tileAction, &QAction::triggered,
+            mdiArea, &QMdiArea::tileSubWindows);
 
     cascadeAction = new QAction(tr("&Cascade"), this);
     cascadeAction->setStatusTip(tr("Cascade the windows"));
-    connect(cascadeAction, SIGNAL(triggered()),
-            mdiArea, SLOT(cascadeSubWindows()));
+    connect(cascadeAction, &QAction::triggered,
+            mdiArea, &QMdiArea::cascadeSubWindows);
 
     nextAction = new QAction(tr("Ne&xt"), this);
     nextAction->setShortcut(QKeySequence::NextChild);
     nextAction->setStatusTip(tr("Move the focus to the next window"));
-    connect(nextAction, SIGNAL(triggered()),
-            mdiArea, SLOT(activateNextSubWindow()));
+    connect(nextAction, &QAction::triggered,
+            mdiArea, &QMdiArea::activateNextSubWindow);
 
     previousAction = new QAction(tr("Pre&vious"), this);
     previousAction->setShortcut(QKeySequence::PreviousChild);
     previousAction->setStatusTip(tr("Move the focus to the previous "
                                     "window"));
-    connect(previousAction, SIGNAL(triggered()),
-            mdiArea, SLOT(activatePreviousSubWindow()));
+    connect(previousAction, &QAction::triggered,
+            mdiArea, &QMdiArea::activatePreviousSubWindow);
 
     separatorAction = new QAction(this);
     separatorAction->setSeparator(true);
 
     aboutAction = new QAction(tr("&About"), this);
     aboutAction->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    connect(aboutAction, &QAction::triggered, this, &MainWindow::about);
 
     aboutQtAction = new QAction(tr("About &Qt"), this);
     aboutQtAction->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(aboutQtAction, &QAction::triggered, qApp, &QApplication::aboutQt);
 
     windowActionGroup = new QActionGroup(this);
 }
@@ -278,10 +286,10 @@ void MainWindow::createStatusBar()
 
 void MainWindow::addEditor(Editor *editor)
 {
-    connect(editor, SIGNAL(copyAvailable(bool)),
-            cutAction, SLOT(setEnabled(bool)));
-    connect(editor, SIGNAL(copyAvailable(bool)),
-            copyAction, SLOT(setEnabled(bool)));
+    connect(editor, &Editor::copyAvailable,
+            cutAction, &QAction::setEnabled);
+    connect(editor, &Editor::copyAvailable,
+            copyAction, &QAction::setEnabled);
 
     QMdiSubWindow *subWindow = mdiArea->addSubWindow(editor);
     windowMenu->addAction(editor->windowMenuAction());
