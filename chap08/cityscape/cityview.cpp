@@ -1,8 +1,7 @@
-#include <QtGui>
 #include <cmath>
 
 #include "cityview.h"
-
+#include <QWheelEvent>
 CityView::CityView(QWidget *parent)
     : QGraphicsView(parent)
 {

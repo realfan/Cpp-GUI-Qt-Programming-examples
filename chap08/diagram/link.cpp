@@ -1,8 +1,6 @@
-#include <QtGui>
-
 #include "link.h"
 #include "node.h"
-
+#include <QPen>
 Link::Link(Node *fromNode, Node *toNode)
 {
     myFromNode = fromNode;

@@ -1,8 +1,7 @@
-#include <QtGui>
 
 #include "node.h"
 #include "propertiesdialog.h"
-
+#include <QColorDialog>
 PropertiesDialog::PropertiesDialog(Node *node, QWidget *parent)
     : QDialog(parent)
 {

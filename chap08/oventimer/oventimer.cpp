@@ -1,4 +1,3 @@
-#include <QtGui>
 #include <cmath>
 
 #ifndef M_PI
@@ -6,6 +5,11 @@
 #endif
 
 #include "oventimer.h"
+#include <QTimer>
+#include <QPointF>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QPen>
 
 const double DegreesPerMinute = 7.0;
 const double DegreesPerSecond = DegreesPerMinute / 60;
@@ -23,8 +27,8 @@ OvenTimer::OvenTimer(QWidget *parent)
 
     finishTimer = new QTimer(this);
     finishTimer->setSingleShot(true);
-    connect(finishTimer, SIGNAL(timeout()), this, SIGNAL(timeout()));
-    connect(finishTimer, SIGNAL(timeout()), updateTimer, SLOT(stop()));
+    connect(finishTimer, &QTimer::timeout, this, &OvenTimer::timeout);
+    connect(finishTimer, &QTimer::timeout, updateTimer, &QTimer::stop);
 
     QFont font;
     font.setPointSize(8);
