@@ -1,9 +1,10 @@
-#include <QtGui>
-
 #include "booleanmodel.h"
 #include "booleanparser.h"
 #include "booleanwindow.h"
-
+#include <QLabel>
+#include <QLineEdit>
+#include <QTreeView>
+#include <QGridLayout>
 BooleanWindow::BooleanWindow()
 {
     label = new QLabel(tr("Boolean expression:"));
@@ -14,8 +15,7 @@ BooleanWindow::BooleanWindow()
     treeView = new QTreeView;
     treeView->setModel(booleanModel);
 
-    connect(lineEdit, SIGNAL(textChanged(const QString &)),
-            this, SLOT(booleanExpressionChanged(const QString &)));
+    connect(lineEdit, &QLineEdit::textChanged, this, &BooleanWindow::booleanExpressionChanged);
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(label, 0, 0);

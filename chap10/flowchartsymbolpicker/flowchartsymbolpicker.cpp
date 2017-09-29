@@ -1,7 +1,7 @@
-#include <QtGui>
-
 #include "flowchartsymbolpicker.h"
-
+#include <QListWidget>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
 FlowChartSymbolPicker::FlowChartSymbolPicker(
         const QMap<int, QString> &symbolMap, QWidget *parent)
     : QDialog(parent)
@@ -23,8 +23,8 @@ FlowChartSymbolPicker::FlowChartSymbolPicker(
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
                                      | QDialogButtonBox::Cancel);
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &FlowChartSymbolPicker::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &FlowChartSymbolPicker::reject);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(listWidget);

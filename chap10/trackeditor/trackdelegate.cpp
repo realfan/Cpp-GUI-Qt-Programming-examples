@@ -1,6 +1,5 @@
-#include <QtGui>
-
 #include "trackdelegate.h"
+#include <QTimeEdit>
 
 TrackDelegate::TrackDelegate(int durationColumn, QObject *parent)
     : QItemDelegate(parent)

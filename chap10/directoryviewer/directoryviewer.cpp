@@ -1,7 +1,12 @@
-#include <QtGui>
-
 #include "directoryviewer.h"
-
+#include <QDirModel>
+#include <QTreeView>
+#include <QPushButton>
+#include <QDialogButtonBox>
+#include <QHeaderView>
+#include <QVBoxLayout>
+#include <QInputDialog>
+#include <QMessageBox>
 DirectoryViewer::DirectoryViewer(QWidget *parent)
     : QDialog(parent)
 {
@@ -14,7 +19,7 @@ DirectoryViewer::DirectoryViewer(QWidget *parent)
     treeView->header()->setStretchLastSection(true);
     treeView->header()->setSortIndicator(0, Qt::AscendingOrder);
     treeView->header()->setSortIndicatorShown(true);
-    treeView->header()->setClickable(true);
+    treeView->header()->setSectionsClickable(true);
 
     QModelIndex index = model->index(QDir::currentPath());
     treeView->expand(index);
@@ -28,10 +33,10 @@ DirectoryViewer::DirectoryViewer(QWidget *parent)
             QDialogButtonBox::ActionRole);
     buttonBox->addButton(tr("&Quit"), QDialogButtonBox::AcceptRole);
 
-    connect(mkdirButton, SIGNAL(clicked()),
-            this, SLOT(createDirectory()));
-    connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(mkdirButton, &QPushButton::clicked,
+            this, &DirectoryViewer::createDirectory);
+    connect(removeButton, &QPushButton::clicked, this, &DirectoryViewer::remove);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &DirectoryViewer::accept);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(treeView);

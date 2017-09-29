@@ -1,7 +1,12 @@
-#include <QtGui>
-
 #include "settingsviewer.h"
-
+#include <QTreeWidget>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QGridLayout>
+#include <QSettings>
 SettingsViewer::SettingsViewer(QWidget *parent)
     : QDialog(parent)
 {
@@ -12,14 +17,14 @@ SettingsViewer::SettingsViewer(QWidget *parent)
     treeWidget->setColumnCount(2);
     treeWidget->setHeaderLabels(
             QStringList() << tr("Key") << tr("Value"));
-    treeWidget->header()->setResizeMode(0, QHeaderView::Stretch);
-    treeWidget->header()->setResizeMode(1, QHeaderView::Stretch);
+    treeWidget->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    treeWidget->header()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Open
                                      | QDialogButtonBox::Close);
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(open()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &SettingsViewer::open);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &SettingsViewer::close);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(treeWidget);
@@ -90,12 +95,12 @@ void SettingsViewer::addChildSettings(QSettings &settings,
 
     settings.beginGroup(group);
 
-    foreach (QString key, settings.childKeys()) {
+    for (const QString & key : settings.childKeys()) {
         item = new QTreeWidgetItem(parent);
         item->setText(0, key);
         item->setText(1, settings.value(key).toString());
     }
-    foreach (QString group, settings.childGroups()) {
+    for (const QString & group : settings.childGroups()) {
         item = new QTreeWidgetItem(parent);
         item->setText(0, group);
         addChildSettings(settings, item, group);

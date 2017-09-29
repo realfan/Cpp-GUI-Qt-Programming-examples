@@ -16,9 +16,10 @@ BooleanModel::~BooleanModel()
 
 void BooleanModel::setRootNode(Node *node)
 {
+    beginResetModel();
     delete rootNode;
     rootNode = node;
-    reset();
+    endResetModel();
 }
 
 QModelIndex BooleanModel::index(int row, int column,

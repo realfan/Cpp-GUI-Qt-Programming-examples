@@ -1,7 +1,11 @@
-#include <QtGui>
-
 #include "colornamesdialog.h"
-
+#include <QListView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QGridLayout>
+#include <QStringListModel>
+#include <QSortFilterProxyModel>
 ColorNamesDialog::ColorNamesDialog(QWidget *parent)
     : QDialog(parent)
 {
@@ -27,10 +31,10 @@ ColorNamesDialog::ColorNamesDialog(QWidget *parent)
     syntaxComboBox->addItem(tr("Fixed string"), QRegExp::FixedString);
     syntaxLabel->setBuddy(syntaxComboBox);
 
-    connect(filterLineEdit, SIGNAL(textChanged(const QString &)),
-            this, SLOT(reapplyFilter()));
-    connect(syntaxComboBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(reapplyFilter()));
+    connect(filterLineEdit, &QLineEdit::textChanged,
+            this, &ColorNamesDialog::reapplyFilter);
+    connect(syntaxComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &ColorNamesDialog::reapplyFilter);
 
     QGridLayout *mainLayout = new QGridLayout;
     mainLayout->addWidget(listView, 0, 0, 1, 2);

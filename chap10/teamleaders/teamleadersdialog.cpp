@@ -1,6 +1,9 @@
-#include <QtGui>
-
 #include "teamleadersdialog.h"
+#include <QStringListModel>
+#include <QListView>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 TeamLeadersDialog::TeamLeadersDialog(const QStringList &leaders,
                                      QWidget *parent)
@@ -22,10 +25,10 @@ TeamLeadersDialog::TeamLeadersDialog(const QStringList &leaders,
     buttonBox->addButton(QDialogButtonBox::Ok);
     buttonBox->addButton(QDialogButtonBox::Cancel);
 
-    connect(insertButton, SIGNAL(clicked()), this, SLOT(insert()));
-    connect(deleteButton, SIGNAL(clicked()), this, SLOT(del()));
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(insertButton, &QPushButton::clicked, this, &TeamLeadersDialog::insert);
+    connect(deleteButton, &QPushButton::clicked, this, &TeamLeadersDialog::del);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &TeamLeadersDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &TeamLeadersDialog::reject);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(listView);
