@@ -1,8 +1,15 @@
-#include <QtGui>
 #include <QtSql>
 
 #include "employeeform.h"
-
+#include <QLineEdit>
+#include <QLabel>
+#include <QComboBox>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QDateEdit>
+#include <QDialogButtonBox>
+#include <QDataWidgetMapper>
 EmployeeForm::EmployeeForm(int id, QWidget *parent)
     : QDialog(parent)
 {
@@ -84,15 +91,15 @@ EmployeeForm::EmployeeForm(int id, QWidget *parent)
         mapper->toFirst();
     }
 
-    connect(firstButton, SIGNAL(clicked()), mapper, SLOT(toFirst()));
-    connect(previousButton, SIGNAL(clicked()),
-            mapper, SLOT(toPrevious()));
-    connect(nextButton, SIGNAL(clicked()), mapper, SLOT(toNext()));
-    connect(lastButton, SIGNAL(clicked()), mapper, SLOT(toLast()));
-    connect(addButton, SIGNAL(clicked()), this, SLOT(addEmployee()));
-    connect(deleteButton, SIGNAL(clicked()),
-            this, SLOT(deleteEmployee()));
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(firstButton, &QPushButton::clicked, mapper, &QDataWidgetMapper::toFirst);
+    connect(previousButton, &QPushButton::clicked,
+            mapper, &QDataWidgetMapper::toPrevious);
+    connect(nextButton, &QPushButton::clicked, mapper, &QDataWidgetMapper::toNext);
+    connect(lastButton, &QPushButton::clicked, mapper, &QDataWidgetMapper::toLast);
+    connect(addButton, &QPushButton::clicked, this, &EmployeeForm::addEmployee);
+    connect(deleteButton, &QPushButton::clicked,
+            this, &EmployeeForm::deleteEmployee);
+    connect(closeButton, &QPushButton::clicked, this, &EmployeeForm::accept);
 
     QHBoxLayout *topButtonLayout = new QHBoxLayout;
     topButtonLayout->setContentsMargins(20, 0, 20, 5);

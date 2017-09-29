@@ -3,7 +3,14 @@
 
 #include "employeeform.h"
 #include "mainform.h"
-
+#include <QSplitter>
+#include <QPushButton>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
+#include <QTableView>
+#include <QHeaderView>
+#include <QLabel>
+#include <QMessageBox>
 MainForm::MainForm()
 {
     createDepartmentPanel();
@@ -25,11 +32,11 @@ MainForm::MainForm()
     buttonBox->addButton(editButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton, QDialogButtonBox::AcceptRole);
 
-    connect(addButton, SIGNAL(clicked()), this, SLOT(addDepartment()));
-    connect(deleteButton, SIGNAL(clicked()),
-            this, SLOT(deleteDepartment()));
-    connect(editButton, SIGNAL(clicked()), this, SLOT(editEmployees()));
-    connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(addButton, &QPushButton::clicked, this, &MainForm::addDepartment);
+    connect(deleteButton, &QPushButton::clicked,
+            this, &MainForm::deleteDepartment);
+    connect(editButton, &QPushButton::clicked, this, &MainForm::editEmployees);
+    connect(quitButton, &QPushButton::clicked, this, &MainForm::close);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(splitter);

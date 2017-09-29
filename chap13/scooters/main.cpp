@@ -1,8 +1,8 @@
-#include <QtGui>
 #include <QtSql>
 
 #include "scooterwindow.h"
-
+#include <QMessageBox>
+#include <QApplication>
 bool createConnection()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

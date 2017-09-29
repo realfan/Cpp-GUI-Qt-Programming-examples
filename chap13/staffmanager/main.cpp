@@ -1,9 +1,10 @@
-#include <QtGui>
 #include <QtSql>
 #include <cstdlib>
 
 #include "mainform.h"
-
+#include <QMessageBox>
+#include <QProgressDialog>
+#include <QApplication>
 bool createConnection()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

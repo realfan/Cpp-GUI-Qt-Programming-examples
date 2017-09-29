@@ -1,8 +1,10 @@
-#include <QtGui>
 #include <QtSql>
 
 #include "scooterwindow.h"
-
+#include <QSqlTableModel>
+#include <QTableView>
+#include <QHeaderView>
+#include <QHBoxLayout>
 ScooterWindow::ScooterWindow()
 {
     model = new QSqlTableModel(this);
