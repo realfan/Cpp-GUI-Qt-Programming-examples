@@ -1,5 +1,3 @@
-#include <QtGui>
-
 #include "hexspinbox.h"
 
 HexSpinBox::HexSpinBox(QWidget *parent)

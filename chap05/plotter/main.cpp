@@ -1,7 +1,7 @@
-#include <QtGui>
-
 #include "plotter.h"
-
+#include <QApplication>
+#include <QFile>
+#include <QTextStream>
 void readFlightCurves(Plotter *plotter, const QString &fileName)
 {
     QVector<QPointF> data[6];

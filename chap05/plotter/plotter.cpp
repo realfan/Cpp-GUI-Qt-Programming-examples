@@ -1,8 +1,10 @@
-#include <QtGui>
 #include <cmath>
 
 #include "plotter.h"
-
+#include <QToolButton>
+#include <QStylePainter>
+#include <QStyleOptionFocusRect>
+#include <QMouseEvent>
 Plotter::Plotter(QWidget *parent)
     : QWidget(parent)
 {
@@ -15,12 +17,12 @@ Plotter::Plotter(QWidget *parent)
     zoomInButton = new QToolButton(this);
     zoomInButton->setIcon(QIcon(":/images/zoomin.png"));
     zoomInButton->adjustSize();
-    connect(zoomInButton, SIGNAL(clicked()), this, SLOT(zoomIn()));
+    connect(zoomInButton, &QToolButton::clicked, this, &Plotter::zoomIn);
 
     zoomOutButton = new QToolButton(this);
     zoomOutButton->setIcon(QIcon(":/images/zoomout.png"));
     zoomOutButton->adjustSize();
-    connect(zoomOutButton, SIGNAL(clicked()), this, SLOT(zoomOut()));
+    connect(zoomOutButton, &QToolButton::clicked, this, &Plotter::zoomOut);
 
     setPlotSettings(PlotSettings());
 }
@@ -215,7 +217,7 @@ void Plotter::updateRubberBandRegion()
 void Plotter::refreshPixmap()
 {
     pixmap = QPixmap(size());
-    pixmap.fill(this, 0, 0);
+    //pixmap.fill(this, 0, 0);
 
     QPainter painter(&pixmap);
     painter.initFrom(this);
