@@ -1,6 +1,7 @@
-#include <QtGui>
 
 #include "ticker.h"
+#include <QPainter>
+#include <QTimerEvent>
 
 Ticker::Ticker(QWidget *parent)
     : QWidget(parent)
